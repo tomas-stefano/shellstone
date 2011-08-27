@@ -1,0 +1,11 @@
+<package>
+  <name>ShellStone</name>
+  <namespace>ShellStone</namespace>
+  <test>
+    <filein>spec/core/describe_spec.st</filein>
+    <filein>spec/matchers/equal_spec.st</filein>
+  </test>
+  <filein>shellstone/core/describe.st</filein>
+  <filein>shellstone/matchers/matcher.st</filein>  
+  <filein>shellstone/matchers/equal.st</filein>
+</package>
