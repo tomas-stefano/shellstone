@@ -1,0 +1,5 @@
+#!/usr/bin/env gst -f
+
+PackageLoader fileInPackage: #ShellStone.
+
+ShellStone.Runner new start.

@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+
+gst-package -t ~/.st package.xml
+gst --no-gc-message bin/shellstone
