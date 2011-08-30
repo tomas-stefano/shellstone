@@ -2,19 +2,27 @@
   <name>ShellStone</name>
   <namespace>ShellStone</namespace>
 
-  <filein>shellstone/core/extensions/runner.st</filein>
-  <filein>shellstone/core/extensions/options_parser.st</filein>
+  <filein>shellstone/extensions/runner.st</filein>
+  <filein>shellstone/extensions/options_parser.st</filein>
   <filein>shellstone/core/describe.st</filein>
   <filein>shellstone/core/example_group.st</filein>
+  <filein>shellstone/expectations/expectation_handler.st</filein>
+  <filein>shellstone/expectations/positive_expectation_handler.st</filein>
+  <filein>shellstone/expectations/negative_expectation_handler.st</filein>  
   <filein>shellstone/expectations/should.st</filein>
   <filein>shellstone/matchers/matcher.st</filein>  
   <filein>shellstone/matchers/equal.st</filein>
+  <filein>shellstone/matchers/kind_of.st</filein>
   
-  <file>shellstone/core/extensions/runner.st</file>
-  <file>shellstone/core/extensions/options_parser.st</file>
+  <file>shellstone/extensions/runner.st</file>
+  <file>shellstone/extensions/options_parser.st</file>
   <file>shellstone/core/describe.st</file>
   <file>shellstone/core/example_group.st</file>
+  <file>shellstone/expectations/expectation_handler.st</file>
+  <file>shellstone/expectations/positive_expectation_handler.st</file>
+  <file>shellstone/expectations/negative_expectation_handler.st</file>  
   <file>shellstone/expectations/should.st</file>
   <file>shellstone/matchers/matcher.st</file>
   <file>shellstone/matchers/equal.st</file>
+  <file>shellstone/matchers/kind_of.st</file>
 </package>

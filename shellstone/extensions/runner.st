@@ -1,5 +1,5 @@
 Object subclass: Runner [
-  <category: 'Core'>
+  <category: 'Extensions'>
   <comment: 'Class Responsible to manage all the users specifications.'>
   |options spec_files load_path|
   load_path := ''.

@@ -1,5 +1,5 @@
 Object subclass: OptionsParser [
-  <category: 'Core'>
+  <category: 'Extensions'>
   <comment: 'Class Responsible to handle the Command Line Arguments'>
   
   OptionsParser class >> new [
