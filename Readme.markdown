@@ -3,6 +3,11 @@ ShellStone
 
 Behavior Driven Development for Smalltalk
 
+Not Ready Yet
+-------------
+
+This repo is my study about smalltalk, when is ready I'll bump a version!
+
 Usage
 -----
 
@@ -32,7 +37,11 @@ Hooks
       ]
     ]
 
-Running
--------
+Matchers
+--------
 
-    $ shellstone --help
+* respond_to
+* equal
+* kind_of
+
+...
