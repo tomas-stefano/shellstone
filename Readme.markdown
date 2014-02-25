@@ -24,15 +24,15 @@ Hooks
       "Or you can call just call setUp"
       example before: #all do: [
       ]
-      
+
       example before: #each do: [
-        
+
       ]
 
-      "Or you can call just call tearDown"      
+      "Or you can call just call tearDown"
       example after: #all do: [
       ]
-      
+
       example after: #each do: [
       ]
     ]
@@ -40,8 +40,4 @@ Hooks
 Matchers
 --------
 
-* respond_to
 * equal
-* kind_of
-
-...
