@@ -2,27 +2,103 @@
   <name>ShellStone</name>
   <namespace>ShellStone</namespace>
 
-  <filein>shellstone/extensions/runner.st</filein>
-  <filein>shellstone/extensions/options_parser.st</filein>
-  <filein>shellstone/core/describe.st</filein>
-  <filein>shellstone/core/example_group.st</filein>
-  <filein>shellstone/expectations/expectation_handler.st</filein>
-  <filein>shellstone/expectations/positive_expectation_handler.st</filein>
-  <filein>shellstone/expectations/negative_expectation_handler.st</filein>  
+  <!-- Support utilities (must come first) -->
+  <filein>shellstone/support/color_output.st</filein>
+  <filein>shellstone/support/example_result.st</filein>
+
+  <!-- Expectations - base classes -->
+  <filein>shellstone/expectations/expectation_failed.st</filein>
+  <filein>shellstone/expectations/matchers/base_matcher.st</filein>
+
+  <!-- Matchers -->
+  <filein>shellstone/expectations/matchers/equal.st</filein>
+  <filein>shellstone/expectations/matchers/be.st</filein>
+  <filein>shellstone/expectations/matchers/be_kind_of.st</filein>
+  <filein>shellstone/expectations/matchers/respond_to.st</filein>
+  <filein>shellstone/expectations/matchers/include.st</filein>
+  <filein>shellstone/expectations/matchers/match.st</filein>
+  <filein>shellstone/expectations/matchers/raise_error.st</filein>
+  <filein>shellstone/expectations/matchers/change.st</filein>
+  <filein>shellstone/expectations/matchers/comparison.st</filein>
+
+  <!-- Expectation handlers -->
+  <filein>shellstone/expectations/expectation_target.st</filein>
+  <filein>shellstone/expectations/positive_handler.st</filein>
+  <filein>shellstone/expectations/negative_handler.st</filein>
   <filein>shellstone/expectations/should.st</filein>
-  <filein>shellstone/matchers/matcher.st</filein>  
-  <filein>shellstone/matchers/equal.st</filein>
-  <filein>shellstone/matchers/kind_of.st</filein>
-  
-  <file>shellstone/extensions/runner.st</file>
-  <file>shellstone/extensions/options_parser.st</file>
-  <file>shellstone/core/describe.st</file>
-  <file>shellstone/core/example_group.st</file>
-  <file>shellstone/expectations/expectation_handler.st</file>
-  <file>shellstone/expectations/positive_expectation_handler.st</file>
-  <file>shellstone/expectations/negative_expectation_handler.st</file>  
+
+  <!-- Core DSL -->
+  <filein>shellstone/core/metadata.st</filein>
+  <filein>shellstone/core/pending.st</filein>
+  <filein>shellstone/core/let_definition.st</filein>
+  <filein>shellstone/core/hooks.st</filein>
+  <filein>shellstone/core/example.st</filein>
+  <filein>shellstone/core/example_group.st</filein>
+  <filein>shellstone/core/world.st</filein>
+  <filein>shellstone/core/describe.st</filein>
+
+  <!-- Mocks -->
+  <filein>shellstone/mocks/method_stub.st</filein>
+  <filein>shellstone/mocks/message_expectation.st</filein>
+  <filein>shellstone/mocks/double.st</filein>
+  <filein>shellstone/mocks/spy.st</filein>
+
+  <!-- Formatters -->
+  <filein>shellstone/support/formatters/base_formatter.st</filein>
+  <filein>shellstone/support/formatters/progress_formatter.st</filein>
+  <filein>shellstone/support/formatters/documentation_formatter.st</filein>
+  <filein>shellstone/support/formatters/html_formatter.st</filein>
+  <filein>shellstone/support/formatters/json_formatter.st</filein>
+  <filein>shellstone/support/formatters/failures_formatter.st</filein>
+
+  <!-- Support - CLI and runner -->
+  <filein>shellstone/support/filter_manager.st</filein>
+  <filein>shellstone/support/ordering.st</filein>
+  <filein>shellstone/support/profiler.st</filein>
+  <filein>shellstone/support/reporter.st</filein>
+  <filein>shellstone/support/options_parser.st</filein>
+  <filein>shellstone/support/runner.st</filein>
+
+  <!-- Package files for distribution -->
+  <file>shellstone/support/color_output.st</file>
+  <file>shellstone/support/example_result.st</file>
+  <file>shellstone/expectations/expectation_failed.st</file>
+  <file>shellstone/expectations/matchers/base_matcher.st</file>
+  <file>shellstone/expectations/matchers/equal.st</file>
+  <file>shellstone/expectations/matchers/be.st</file>
+  <file>shellstone/expectations/matchers/be_kind_of.st</file>
+  <file>shellstone/expectations/matchers/respond_to.st</file>
+  <file>shellstone/expectations/matchers/include.st</file>
+  <file>shellstone/expectations/matchers/match.st</file>
+  <file>shellstone/expectations/matchers/raise_error.st</file>
+  <file>shellstone/expectations/matchers/change.st</file>
+  <file>shellstone/expectations/matchers/comparison.st</file>
+  <file>shellstone/expectations/expectation_target.st</file>
+  <file>shellstone/expectations/positive_handler.st</file>
+  <file>shellstone/expectations/negative_handler.st</file>
   <file>shellstone/expectations/should.st</file>
-  <file>shellstone/matchers/matcher.st</file>
-  <file>shellstone/matchers/equal.st</file>
-  <file>shellstone/matchers/kind_of.st</file>
+  <file>shellstone/core/metadata.st</file>
+  <file>shellstone/core/pending.st</file>
+  <file>shellstone/core/let_definition.st</file>
+  <file>shellstone/core/hooks.st</file>
+  <file>shellstone/core/example.st</file>
+  <file>shellstone/core/example_group.st</file>
+  <file>shellstone/core/world.st</file>
+  <file>shellstone/core/describe.st</file>
+  <file>shellstone/mocks/method_stub.st</file>
+  <file>shellstone/mocks/message_expectation.st</file>
+  <file>shellstone/mocks/double.st</file>
+  <file>shellstone/mocks/spy.st</file>
+  <file>shellstone/support/formatters/base_formatter.st</file>
+  <file>shellstone/support/formatters/progress_formatter.st</file>
+  <file>shellstone/support/formatters/documentation_formatter.st</file>
+  <file>shellstone/support/formatters/html_formatter.st</file>
+  <file>shellstone/support/formatters/json_formatter.st</file>
+  <file>shellstone/support/formatters/failures_formatter.st</file>
+  <file>shellstone/support/filter_manager.st</file>
+  <file>shellstone/support/ordering.st</file>
+  <file>shellstone/support/profiler.st</file>
+  <file>shellstone/support/reporter.st</file>
+  <file>shellstone/support/options_parser.st</file>
+  <file>shellstone/support/runner.st</file>
 </package>

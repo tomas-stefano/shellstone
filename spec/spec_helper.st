@@ -1,2 +1,4 @@
+"ShellStone spec helper - configuration for test suite"
 
-ShellStone.Runner load_path: 'shellstone'.
+"Configure load path if needed"
+ShellStone.Runner loadPath: ''.
