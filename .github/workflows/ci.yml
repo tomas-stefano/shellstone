@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install GNU Smalltalk
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gnu-smalltalk
+
+      - name: Build package
+        run: gst-package -t ~/.st package.xml
+
+      - name: Run unit specs
+        run: ./bin/shellstone spec/
+
+      - name: Run feature specs
+        run: ./bin/shellstone features/
+
+      - name: Run with documentation format
+        run: ./bin/shellstone -f documentation spec/ features/
