@@ -9,11 +9,8 @@ BaseMatcher subclass: MatchMatcher [
   ]
 
   matches: actualValue [
-    | regex |
-    expected isString
-      ifTrue: [ regex := expected asRegex ]
-      ifFalse: [ regex := expected ].
-    ^regex search: actualValue asString
+    "Use simple substring matching for now"
+    ^(actualValue asString indexOfSubCollection: expected asString) > 0
   ]
 
   positiveFailureMessage [
