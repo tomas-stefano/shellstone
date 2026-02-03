@@ -11,13 +11,13 @@ Describe the: 'pending examples' do: [:spec |
 
   spec context: 'regular examples still work' do: [:ctx |
     ctx it: 'this example runs normally' do: [
-      true should equal: true.
+      (self expect: true) to equal: true.
     ].
 
     ctx it: 'pending without block'.
 
     ctx it: 'this also runs normally' do: [
-      1 should equal: 1.
+      (self expect: 1) to equal: 1.
     ].
   ].
 ].

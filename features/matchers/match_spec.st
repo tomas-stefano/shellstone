@@ -5,31 +5,31 @@ Namespace current: ShellStone [
 Describe the: 'match matcher' do: [:spec |
   spec context: 'basic patterns' do: [:ctx |
     ctx it: 'matches literal strings' do: [
-      'hello world' should match: 'hello'.
-      'hello world' should match: 'world'.
+      (self expect: 'hello world') to match: 'hello'.
+      (self expect: 'hello world') to match: 'world'.
     ].
 
     ctx it: 'matches anywhere in string' do: [
-      'hello world' should match: 'lo wo'.
+      (self expect: 'hello world') to match: 'lo wo'.
     ].
 
     ctx it: 'fails when pattern not found' do: [
-      'hello world' shouldNot match: 'foo'.
+      (self expect: 'hello world') toNot match: 'foo'.
     ].
   ].
 
   spec context: 'common use cases' do: [:ctx |
     ctx it: 'matches substrings' do: [
-      'user@example.com' should match: '@example'.
-      'user@example.com' should match: '.com'.
+      (self expect: 'user@example.com') to match: '@example'.
+      (self expect: 'user@example.com') to match: '.com'.
     ].
 
     ctx it: 'matches prefixes' do: [
-      'hello world' should match: 'hello'.
+      (self expect: 'hello world') to match: 'hello'.
     ].
 
     ctx it: 'matches suffixes' do: [
-      'hello world' should match: 'world'.
+      (self expect: 'hello world') to match: 'world'.
     ].
   ].
 ].

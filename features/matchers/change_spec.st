@@ -7,19 +7,19 @@ Describe the: 'change matcher' do: [:spec |
     ctx it: 'passes when value changes' do: [
       | counter |
       counter := 0.
-      [counter := counter + 1] should change: [counter].
+      (self expect: [counter := counter + 1]) to change: [counter].
     ].
 
     ctx it: 'detects string changes' do: [
       | str |
       str := 'hello'.
-      [str := str, ' world'] should change: [str].
+      (self expect: [str := str, ' world']) to change: [str].
     ].
 
     ctx it: 'detects collection changes' do: [
       | coll |
       coll := OrderedCollection new.
-      [coll add: 1] should change: [coll size].
+      (self expect: [coll add: 1]) to change: [coll size].
     ].
   ].
 ].

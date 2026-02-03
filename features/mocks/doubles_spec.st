@@ -7,15 +7,15 @@ Describe the: 'test doubles' do: [:spec |
     ctx it: 'creates a named double' do: [
       | dbl |
       dbl := Double named: 'database'.
-      dbl should respondTo: #name.
-      dbl name should equal: 'database'.
+      (self expect: dbl) to respondTo: #name.
+      (self expect: dbl name) to equal: 'database'.
     ].
 
     ctx it: 'creates multiple independent doubles' do: [
       | db1 db2 |
       db1 := Double named: 'db1'.
       db2 := Double named: 'db2'.
-      db1 shouldNot equal: db2.
+      (self expect: db1) toNot equal: db2.
     ].
   ].
 
@@ -24,14 +24,14 @@ Describe the: 'test doubles' do: [:spec |
       | dbl |
       dbl := Double named: 'service'.
       dbl stub: #fetch andReturn: 'data'.
-      (dbl fetch) should equal: 'data'.
+      (self expect: dbl fetch) to equal: 'data'.
     ].
 
     ctx it: 'stubs method with argument' do: [
       | dbl |
       dbl := Double named: 'repo'.
       dbl stub: #find: andReturn: 'found'.
-      (dbl find: 1) should equal: 'found'.
+      (self expect: (dbl find: 1)) to equal: 'found'.
     ].
 
     ctx it: 'stubs multiple methods' do: [
@@ -41,9 +41,9 @@ Describe the: 'test doubles' do: [:spec |
       dbl stub: #post: andReturn: 'post result'.
       dbl stub: #delete: andReturn: 'delete result'.
 
-      (dbl get) should equal: 'get result'.
-      (dbl post: 'data') should equal: 'post result'.
-      (dbl delete: 1) should equal: 'delete result'.
+      (self expect: dbl get) to equal: 'get result'.
+      (self expect: (dbl post: 'data')) to equal: 'post result'.
+      (self expect: (dbl delete: 1)) to equal: 'delete result'.
     ].
 
     ctx it: 'stubs method returning collection' do: [
@@ -52,8 +52,8 @@ Describe the: 'test doubles' do: [:spec |
       dbl := Double named: 'userRepo'.
       dbl stub: #allUsers andReturn: users.
 
-      (dbl allUsers) should equal: users.
-      (dbl allUsers) size should equal: 3.
+      (self expect: dbl allUsers) to equal: users.
+      (self expect: dbl allUsers size) to equal: 3.
     ].
   ].
 
@@ -70,9 +70,9 @@ Describe the: 'test doubles' do: [:spec |
       repo stub: #findById: andReturn: user.
       repo stub: #save: andReturn: true.
 
-      (repo findById: 1) should equal: user.
-      ((repo findById: 1) at: 'name') should equal: 'Alice'.
-      (repo save: user) should equal: true.
+      (self expect: (repo findById: 1)) to equal: user.
+      (self expect: ((repo findById: 1) at: 'name')) to equal: 'Alice'.
+      (self expect: (repo save: user)) to equal: true.
     ].
 
     ctx it: 'mocks an HTTP client' do: [
@@ -85,7 +85,7 @@ Describe the: 'test doubles' do: [:spec |
       http := Double named: 'HttpClient'.
       http stub: #get: andReturn: response.
 
-      ((http get: '/api/users') at: 'status') should equal: 200.
+      (self expect: ((http get: '/api/users') at: 'status')) to equal: 200.
     ].
 
     ctx it: 'mocks a mailer service' do: [
@@ -94,8 +94,8 @@ Describe the: 'test doubles' do: [:spec |
       mailer stub: #send: andReturn: true.
       mailer stub: #sendBulk: andReturn: 5.
 
-      (mailer send: 'email') should equal: true.
-      (mailer sendBulk: #('a@b.com' 'c@d.com')) should equal: 5.
+      (self expect: (mailer send: 'email')) to equal: true.
+      (self expect: (mailer sendBulk: #('a@b.com' 'c@d.com'))) to equal: 5.
     ].
   ].
 ].

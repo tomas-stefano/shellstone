@@ -5,52 +5,52 @@ Namespace current: ShellStone [
 Describe the: 'respondTo matcher' do: [:spec |
   spec context: 'with common objects' do: [:ctx |
     ctx it: 'passes for String methods' do: [
-      'hello' should respondTo: #size.
-      'hello' should respondTo: #asUppercase.
-      'hello' should respondTo: #asLowercase.
+      (self expect: 'hello') to respondTo: #size.
+      (self expect: 'hello') to respondTo: #asUppercase.
+      (self expect: 'hello') to respondTo: #asLowercase.
     ].
 
     ctx it: 'passes for Collection methods' do: [
-      #(1 2 3) should respondTo: #size.
-      #(1 2 3) should respondTo: #first.
-      #(1 2 3) should respondTo: #last.
-      #(1 2 3) should respondTo: #do:.
+      (self expect: #(1 2 3)) to respondTo: #size.
+      (self expect: #(1 2 3)) to respondTo: #first.
+      (self expect: #(1 2 3)) to respondTo: #last.
+      (self expect: #(1 2 3)) to respondTo: #do:.
     ].
 
     ctx it: 'passes for Number methods' do: [
-      42 should respondTo: #negated.
-      42 should respondTo: #abs.
-      42 should respondTo: #+.
+      (self expect: 42) to respondTo: #negated.
+      (self expect: 42) to respondTo: #abs.
+      (self expect: 42) to respondTo: #+.
     ].
 
     ctx it: 'passes for Object methods' do: [
-      Object new should respondTo: #class.
-      Object new should respondTo: #printString.
-      Object new should respondTo: #yourself.
+      (self expect: Object new) to respondTo: #class.
+      (self expect: Object new) to respondTo: #printString.
+      (self expect: Object new) to respondTo: #yourself.
     ].
   ].
 
   spec context: 'with keyword methods' do: [:ctx |
     ctx it: 'passes for single keyword methods' do: [
-      OrderedCollection new should respondTo: #add:.
-      Dictionary new should respondTo: #at:.
+      (self expect: OrderedCollection new) to respondTo: #add:.
+      (self expect: Dictionary new) to respondTo: #at:.
     ].
 
     ctx it: 'passes for multi-keyword methods' do: [
-      Dictionary new should respondTo: #at:put:.
-      'hello' should respondTo: #copyFrom:to:.
+      (self expect: Dictionary new) to respondTo: #at:put:.
+      (self expect: 'hello') to respondTo: #copyFrom:to:.
     ].
   ].
 
   spec context: 'negative matching' do: [:ctx |
     ctx it: 'fails for non-existent methods' do: [
-      'hello' shouldNot respondTo: #nonExistentMethod.
-      42 shouldNot respondTo: #fooBar:.
+      (self expect: 'hello') toNot respondTo: #nonExistentMethod.
+      (self expect: 42) toNot respondTo: #fooBar:.
     ].
 
     ctx it: 'fails for methods from unrelated classes' do: [
-      42 shouldNot respondTo: #asUppercase.
-      'hello' shouldNot respondTo: #negated.
+      (self expect: 42) toNot respondTo: #asUppercase.
+      (self expect: 'hello') toNot respondTo: #negated.
     ].
   ].
 ].

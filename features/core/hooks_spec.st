@@ -11,19 +11,19 @@ Describe the: 'hooks' do: [:spec |
     ].
 
     ctx it: 'runs before each example - first' do: [
-      counter should equal: 0.
+      (self expect: counter) to equal: 0.
       counter := counter + 1.
-      counter should equal: 1.
+      (self expect: counter) to equal: 1.
     ].
 
     ctx it: 'runs before each example - second' do: [
-      counter should equal: 0.
+      (self expect: counter) to equal: 0.
       counter := counter + 5.
-      counter should equal: 5.
+      (self expect: counter) to equal: 5.
     ].
 
     ctx it: 'runs before each example - third' do: [
-      counter should equal: 0.
+      (self expect: counter) to equal: 0.
     ].
   ].
 
@@ -40,9 +40,9 @@ Describe the: 'hooks' do: [:spec |
     ].
 
     ctx it: 'runs hooks in order' do: [
-      log should include: 'first before'.
-      log should include: 'second before'.
-      log size should equal: 2.
+      (self expect: log) to include: 'first before'.
+      (self expect: log) to include: 'second before'.
+      (self expect: log size) to equal: 2.
     ].
   ].
 
@@ -60,8 +60,8 @@ Describe the: 'hooks' do: [:spec |
       ].
 
       inner it: 'runs outer hook first then inner' do: [
-        outerLog should include: 'outer'.
-        outerLog should include: 'inner'.
+        (self expect: outerLog) to include: 'outer'.
+        (self expect: outerLog) to include: 'inner'.
       ].
     ].
   ].

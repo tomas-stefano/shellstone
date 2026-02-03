@@ -5,32 +5,32 @@ Namespace current: ShellStone [
 Describe the: 'describe blocks' do: [:spec |
   spec context: 'basic structure' do: [:ctx |
     ctx it: 'runs examples inside describe' do: [
-      true should equal: true.
+      (self expect: true) to equal: true.
     ].
 
     ctx it: 'can have multiple examples' do: [
-      1 should equal: 1.
+      (self expect: 1) to equal: 1.
     ].
 
     ctx it: 'examples are independent' do: [
-      2 should equal: 2.
+      (self expect: 2) to equal: 2.
     ].
   ].
 
   spec context: 'nested contexts' do: [:ctx |
     ctx context: 'first level' do: [:inner |
       inner it: 'works at first level' do: [
-        'first' should equal: 'first'.
+        (self expect: 'first') to equal: 'first'.
       ].
 
       inner context: 'second level' do: [:deeper |
         deeper it: 'works at second level' do: [
-          'second' should equal: 'second'.
+          (self expect: 'second') to equal: 'second'.
         ].
 
         deeper context: 'third level' do: [:deepest |
           deepest it: 'works at third level' do: [
-            'third' should equal: 'third'.
+            (self expect: 'third') to equal: 'third'.
           ].
         ].
       ].
@@ -45,25 +45,25 @@ Describe the: 'describe blocks' do: [:spec |
     ].
 
     ctx it: 'starts with initial value' do: [
-      sharedVar should equal: 0.
+      (self expect: sharedVar) to equal: 0.
       sharedVar := 10.
     ].
 
     ctx it: 'resets between examples' do: [
-      sharedVar should equal: 0.
+      (self expect: sharedVar) to equal: 0.
     ].
   ].
 
   spec context: 'with strings as descriptions' do: [:ctx |
     ctx it: 'accepts string descriptions' do: [
-      'works' should equal: 'works'.
+      (self expect: 'works') to equal: 'works'.
     ].
   ].
 ].
 
 Describe the: 'another describe block' do: [:spec |
   spec it: 'can have multiple describe blocks' do: [
-    true should equal: true.
+    (self expect: true) to equal: true.
   ].
 ].
 

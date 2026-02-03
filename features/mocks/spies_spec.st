@@ -9,7 +9,7 @@ Describe the: 'spies' do: [:spec |
       list := OrderedCollection new.
       spy := Spy on: list.
 
-      spy target should equal: list.
+      (self expect: spy target) to equal: list.
     ].
   ].
 
@@ -22,8 +22,8 @@ Describe the: 'spies' do: [:spec |
       spy add: 1.
       spy add: 2.
 
-      list size should equal: 2.
-      list first should equal: 1.
+      (self expect: list size) to equal: 2.
+      (self expect: list first) to equal: 1.
     ].
   ].
 
@@ -35,7 +35,7 @@ Describe the: 'spies' do: [:spec |
 
       spy add: 'item'.
 
-      (spy received: #add:) should equal: true.
+      (self expect: (spy received: #add:)) to equal: true.
     ].
 
     ctx it: 'records that method was not called' do: [
@@ -43,7 +43,7 @@ Describe the: 'spies' do: [:spec |
       list := OrderedCollection new.
       spy := Spy on: list.
 
-      (spy received: #remove:) should equal: false.
+      (self expect: (spy received: #remove:)) to equal: false.
     ].
 
     ctx it: 'records multiple different calls' do: [
@@ -54,7 +54,7 @@ Describe the: 'spies' do: [:spec |
       spy add: 1.
       spy add: 2.
 
-      (spy received: #add:) should equal: true.
+      (self expect: (spy received: #add:)) to equal: true.
     ].
   ].
 
@@ -68,8 +68,8 @@ Describe the: 'spies' do: [:spec |
       spy add: 2.
       spy add: 3.
 
-      (spy received: #add: times: 3) should equal: true.
-      (spy received: #add: times: 2) should equal: false.
+      (self expect: (spy received: #add: times: 3)) to equal: true.
+      (self expect: (spy received: #add: times: 2)) to equal: false.
     ].
   ].
 
@@ -82,9 +82,9 @@ Describe the: 'spies' do: [:spec |
       spy add: 'first'.
       spy add: 'second'.
 
-      (spy received: #add: withArgs: #('first')) should equal: true.
-      (spy received: #add: withArgs: #('second')) should equal: true.
-      (spy received: #add: withArgs: #('third')) should equal: false.
+      (self expect: (spy received: #add: withArgs: #('first'))) to equal: true.
+      (self expect: (spy received: #add: withArgs: #('second'))) to equal: true.
+      (self expect: (spy received: #add: withArgs: #('third'))) to equal: false.
     ].
   ].
 
@@ -99,7 +99,7 @@ Describe the: 'spies' do: [:spec |
 
       calls := spy callsTo: #add:.
 
-      calls size should equal: 2.
+      (self expect: calls size) to equal: 2.
     ].
   ].
 
@@ -110,11 +110,11 @@ Describe the: 'spies' do: [:spec |
       spy := Spy on: list.
 
       spy add: 1.
-      (spy received: #add:) should equal: true.
+      (self expect: (spy received: #add:)) to equal: true.
 
       spy reset.
 
-      (spy received: #add:) should equal: false.
+      (self expect: (spy received: #add:)) to equal: false.
     ].
   ].
 
@@ -128,9 +128,9 @@ Describe the: 'spies' do: [:spec |
       spy addLast: 'job2'.
       spy removeFirst.
 
-      (spy received: #addLast:) should equal: true.
-      (spy received: #addLast: times: 2) should equal: true.
-      (spy received: #removeFirst) should equal: true.
+      (self expect: (spy received: #addLast:)) to equal: true.
+      (self expect: (spy received: #addLast: times: 2)) to equal: true.
+      (self expect: (spy received: #removeFirst)) to equal: true.
     ].
   ].
 ].

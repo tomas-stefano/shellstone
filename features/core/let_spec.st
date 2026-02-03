@@ -7,11 +7,11 @@ Describe the: 'let' do: [:spec |
     ctx let: #value do: [42].
 
     ctx it: 'provides access to defined value' do: [
-      ctx value should equal: 42.
+      (self expect: ctx value) to equal: 42.
     ].
 
     ctx it: 'works in multiple examples' do: [
-      ctx value should equal: 42.
+      (self expect: ctx value) to equal: 42.
     ].
   ].
 
@@ -28,13 +28,13 @@ Describe the: 'let' do: [:spec |
     ].
 
     ctx it: 'does not evaluate until accessed' do: [
-      callCount should equal: 0.
+      (self expect: callCount) to equal: 0.
       ctx lazyValue.
-      callCount should equal: 1.
+      (self expect: callCount) to equal: 1.
     ].
 
     ctx it: 'resets between examples' do: [
-      callCount should equal: 0.
+      (self expect: callCount) to equal: 0.
     ].
   ].
 
@@ -54,7 +54,7 @@ Describe the: 'let' do: [:spec |
       ctx memoized.
       ctx memoized.
       ctx memoized.
-      evalCount should equal: 1.
+      (self expect: evalCount) to equal: 1.
     ].
   ].
 
@@ -63,7 +63,7 @@ Describe the: 'let' do: [:spec |
     ctx let: #second do: [(ctx first), ' world'].
 
     ctx it: 'can reference other lets' do: [
-      ctx second should equal: 'hello world'.
+      (self expect: ctx second) to equal: 'hello world'.
     ].
   ].
 
@@ -73,16 +73,16 @@ Describe the: 'let' do: [:spec |
     ctx let: #aCollection do: [OrderedCollection with: 1 with: 2 with: 3].
 
     ctx it: 'works with strings' do: [
-      ctx aString should equal: 'test string'.
+      (self expect: ctx aString) to equal: 'test string'.
     ].
 
     ctx it: 'works with numbers' do: [
-      ctx aNumber should equal: 42.
+      (self expect: ctx aNumber) to equal: 42.
     ].
 
     ctx it: 'works with collections' do: [
-      ctx aCollection size should equal: 3.
-      ctx aCollection should include: 2.
+      (self expect: ctx aCollection size) to equal: 3.
+      (self expect: ctx aCollection) to include: 2.
     ].
   ].
 ].

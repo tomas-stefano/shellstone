@@ -13,7 +13,7 @@ Describe the: 'message expectations' do: [:spec |
 
       "verify returns self, raises if failed"
       dbl verify.
-      true should equal: true.
+      (self expect: true) to equal: true.
     ].
 
     ctx it: 'verifies method with argument was called' do: [
@@ -24,7 +24,7 @@ Describe the: 'message expectations' do: [:spec |
       dbl save: 'data'.
 
       dbl verify.
-      true should equal: true.
+      (self expect: true) to equal: true.
     ].
   ].
 
@@ -39,7 +39,7 @@ Describe the: 'message expectations' do: [:spec |
       dbl increment.
 
       dbl verify.
-      true should equal: true.
+      (self expect: true) to equal: true.
     ].
 
     ctx it: 'verifies called once' do: [
@@ -50,7 +50,7 @@ Describe the: 'message expectations' do: [:spec |
       dbl doOnce.
 
       dbl verify.
-      true should equal: true.
+      (self expect: true) to equal: true.
     ].
   ].
 
@@ -63,7 +63,7 @@ Describe the: 'message expectations' do: [:spec |
       dbl log: 'error message'.
 
       dbl verify.
-      true should equal: true.
+      (self expect: true) to equal: true.
     ].
   ].
 
@@ -73,7 +73,7 @@ Describe the: 'message expectations' do: [:spec |
       dbl := Double named: 'unused'.
       dbl shouldReceive: #neverCalled.
 
-      [dbl verify] should raiseError.
+      (self expect: [dbl verify]) to raiseError.
     ].
   ].
 ].
