@@ -8,7 +8,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
@@ -19,14 +19,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gnu-smalltalk
 
-      - name: Build package
-        run: gst-package -t ~/.st package.xml
+      - name: Validate package loads
+        run: make validate
 
-      - name: Run unit specs
-        run: ./bin/shellstone spec/
+      - name: Run specs
+        run: make spec
 
-      - name: Run feature specs
-        run: ./bin/shellstone features/
-
-      - name: Run with documentation format
-        run: ./bin/shellstone -f documentation spec/ features/
+      - name: Run specs (documentation format)
+        run: make spec-doc
