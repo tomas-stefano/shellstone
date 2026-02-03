@@ -2,7 +2,7 @@
   <name>ShellStone</name>
   <namespace>ShellStone</namespace>
 
-  <!-- Support utilities (must come first) -->
+  <!-- Support utilities -->
   <filein>shellstone/support/color_output.st</filein>
   <filein>shellstone/support/example_result.st</filein>
 
