@@ -27,12 +27,12 @@ test: spec
 # Run unit specs
 spec:
 	@echo "Running specs..."
-	@$(GST) $(SRC_FILES) $(SPEC_DIR)/spec_helper.st $(SPEC_FILES) scripts/run_specs.st
+	@echo "ShellStone.Runner new start." | $(GST) $(SRC_FILES) $(SPEC_DIR)/spec_helper.st $(SPEC_FILES) /dev/stdin
 
 # Run feature specs
 features:
 	@echo "Running feature specs..."
-	@$(GST) $(SRC_FILES) $(FEATURE_FILES) scripts/run_specs.st
+	@echo "ShellStone.Runner new start." | $(GST) $(SRC_FILES) $(FEATURE_FILES) /dev/stdin
 
 # Run all tests (specs + features)
 all-tests: spec features
@@ -40,12 +40,12 @@ all-tests: spec features
 # Run specs with documentation format
 spec-doc:
 	@echo "Running specs (documentation format)..."
-	@$(GST) $(SRC_FILES) $(SPEC_DIR)/spec_helper.st $(SPEC_FILES) scripts/run_specs_doc.st
+	@echo "| r | r := ShellStone.Runner new. r options format: 'documentation'. r start." | $(GST) $(SRC_FILES) $(SPEC_DIR)/spec_helper.st $(SPEC_FILES) /dev/stdin
 
 # Validate package loads correctly
 validate:
 	@echo "Validating package..."
-	@$(GST) $(SRC_FILES) scripts/validate.st
+	@echo "'Package loaded successfully.' displayNl." | $(GST) $(SRC_FILES) /dev/stdin
 
 # List source files (useful for debugging)
 list-files:
