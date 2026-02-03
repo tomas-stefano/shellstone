@@ -6,59 +6,17 @@ GST_PACKAGE = gst-package
 PACKAGE_XML = package.xml
 
 # Source directories
-SRC_DIR = shellstone
 SPEC_DIR = spec
 FEATURES_DIR = features
 
-# Source files in load order (dependencies first)
-SRC_FILES = \
-	shellstone/support/color_output.st \
-	shellstone/support/example_result.st \
-	shellstone/expectations/expectation_failed.st \
-	shellstone/expectations/matchers/base_matcher.st \
-	shellstone/expectations/matchers/equal.st \
-	shellstone/expectations/matchers/be.st \
-	shellstone/expectations/matchers/be_kind_of.st \
-	shellstone/expectations/matchers/respond_to.st \
-	shellstone/expectations/matchers/include.st \
-	shellstone/expectations/matchers/match.st \
-	shellstone/expectations/matchers/raise_error.st \
-	shellstone/expectations/matchers/change.st \
-	shellstone/expectations/matchers/comparison.st \
-	shellstone/expectations/expectation_target.st \
-	shellstone/expectations/positive_handler.st \
-	shellstone/expectations/negative_handler.st \
-	shellstone/expectations/should.st \
-	shellstone/core/metadata.st \
-	shellstone/core/pending.st \
-	shellstone/core/let_definition.st \
-	shellstone/core/hooks.st \
-	shellstone/core/example.st \
-	shellstone/core/example_group.st \
-	shellstone/core/world.st \
-	shellstone/core/describe.st \
-	shellstone/mocks/method_stub.st \
-	shellstone/mocks/message_expectation.st \
-	shellstone/mocks/double.st \
-	shellstone/mocks/spy.st \
-	shellstone/support/formatters/base_formatter.st \
-	shellstone/support/formatters/progress_formatter.st \
-	shellstone/support/formatters/documentation_formatter.st \
-	shellstone/support/formatters/html_formatter.st \
-	shellstone/support/formatters/json_formatter.st \
-	shellstone/support/formatters/failures_formatter.st \
-	shellstone/support/filter_manager.st \
-	shellstone/support/ordering.st \
-	shellstone/support/profiler.st \
-	shellstone/support/reporter.st \
-	shellstone/support/options_parser.st \
-	shellstone/support/runner.st
+# Extract source files from package.xml (single source of truth)
+SRC_FILES := $(shell grep '<filein>' $(PACKAGE_XML) | sed 's/.*<filein>\(.*\)<\/filein>/\1/')
 
 # Find spec files
 SPEC_FILES := $(shell find $(SPEC_DIR) -name '*_spec.st' | sort)
 FEATURE_FILES := $(shell find $(FEATURES_DIR) -name '*_spec.st' | sort)
 
-.PHONY: all test spec features package clean help validate install uninstall
+.PHONY: all test spec features clean help validate install uninstall
 
 # Default target
 all: test
@@ -84,15 +42,15 @@ spec-doc:
 	@echo "Running specs (documentation format)..."
 	@$(GST) $(SRC_FILES) $(SPEC_DIR)/spec_helper.st $(SPEC_FILES) scripts/run_specs_doc.st
 
-# Update package.xml with proper ordering
-package:
-	@echo "Updating $(PACKAGE_XML)..."
-	@$(GST) scripts/generate_package.st
-
 # Validate package loads correctly
 validate:
 	@echo "Validating package..."
 	@$(GST) $(SRC_FILES) scripts/validate.st
+
+# List source files (useful for debugging)
+list-files:
+	@echo "Source files from package.xml:"
+	@for f in $(SRC_FILES); do echo "  $$f"; done
 
 # Clean generated files
 clean:
@@ -122,8 +80,8 @@ help:
 	@echo "  spec-doc      Run specs with documentation format"
 	@echo "  features      Run feature specs"
 	@echo "  all-tests     Run all tests (specs + features)"
-	@echo "  package       Update package.xml with proper ordering"
 	@echo "  validate      Validate package loads correctly"
+	@echo "  list-files    Show source files from package.xml"
 	@echo "  install       Install package to ~/.st"
 	@echo "  uninstall     Uninstall package"
 	@echo "  clean         Remove generated files"
