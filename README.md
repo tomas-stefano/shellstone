@@ -365,15 +365,27 @@ make validate
 
 ## Development
 
-```bash
-# Update package.xml (preserves load order)
-make package
+### Adding New Files
 
+Edit `package.xml` directly - it's the single source of truth. Add your file in the correct load order (dependencies first):
+
+```xml
+<filein>shellstone/your/new_file.st</filein>
+```
+
+The Makefile automatically extracts the file list from package.xml.
+
+### Other Commands
+
+```bash
 # Install to system
 make install
 
 # Show all available commands
 make help
+
+# List source files (from package.xml)
+make list-files
 ```
 
 ## License
