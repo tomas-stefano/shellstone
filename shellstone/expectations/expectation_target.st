@@ -21,6 +21,13 @@ Object subclass: ExpectationTarget [
   shouldNot [
     ^NegativeHandler for: actual
   ]
+
+  "RSpec 3 style aliases"
+  to [ ^self should ]
+  toNot [ ^self shouldNot ]
+  to_not [ ^self shouldNot ]
+  notTo [ ^self shouldNot ]
+  not_to [ ^self shouldNot ]
 ]
 
 ]

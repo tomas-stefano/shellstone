@@ -1,6 +1,6 @@
-"Wire up should/should_not to Object"
+"Wire up should/should_not to Object and expect: factory"
 
-"Extend Object to provide should/should_not syntax"
+"Extend Object to provide should/should_not syntax (legacy) and expect:"
 Object extend [
   should [
     ^ShellStone.PositiveHandler for: self
@@ -13,6 +13,11 @@ Object extend [
   "Alias for Ruby-style snake_case"
   should_not [
     ^self shouldNot
+  ]
+
+  "RSpec 3 style expect: factory - returns ExpectationTarget"
+  expect: aValue [
+    ^ShellStone.ExpectationTarget for: aValue
   ]
 ]
 
@@ -28,5 +33,10 @@ BlockClosure extend [
 
   should_not [
     ^self shouldNot
+  ]
+
+  "RSpec 3 style expect: factory"
+  expect: aValue [
+    ^ShellStone.ExpectationTarget for: aValue
   ]
 ]
