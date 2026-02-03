@@ -54,13 +54,13 @@ BaseFormatter subclass: ProgressFormatter [
     ].
 
     "Calculate statistics"
-    elapsed := (Time millisecondClockValue - startTime) asFloat / 1000.0.
+    elapsed := Time millisecondClockValue - startTime.
     passedCount := results count: [:r | r passed].
     failedCount := results count: [:r | r failed].
     pendingCount := results count: [:r | r pending].
 
     "Print summary"
-    self printLn: ('Finished in ', (elapsed roundTo: 0.01) printString, ' seconds').
+    self printLn: ('Finished in ', (elapsed // 1000) printString, '.', ((elapsed \\ 1000) // 10) printString, ' seconds').
     self printSummary: results size passed: passedCount failed: failedCount pending: pendingCount.
   ]
 
