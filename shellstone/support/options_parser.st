@@ -33,6 +33,7 @@ Object subclass: OptionsParser [
 
   "Accessors"
   format [ ^format ]
+  format: aString [ format := aString ]
   outputFile [ ^outputFile ]
   order [ ^order ]
   seed [ ^seed ]
