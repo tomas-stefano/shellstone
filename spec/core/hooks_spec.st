@@ -9,21 +9,43 @@ ShellStone.Describe the: 'Hooks' do: [:spec |
         hookCounter := hookCounter + 1.
     ].
 
-    spec it: 'runs before each example' do: [
-        hookCounter should beGreaterThan: 0.
-    ].
-
-    spec it: 'runs before each example again' do: [
-        hookCounter should beGreaterThan: 1.
-    ].
-
-    spec context: 'nested context' do: [:ctx |
-        ctx before: #each do: [
-            "Child before hook"
+    spec context: 'expect syntax' do: [:ctx |
+        ctx it: 'runs before each example' do: [
+            (self expect: hookCounter) to beGreaterThan: 0.
         ].
 
-        ctx it: 'inherits parent before hooks' do: [
-            hookCounter should beGreaterThan: 2.
+        ctx it: 'runs before each example again' do: [
+            (self expect: hookCounter) to beGreaterThan: 1.
+        ].
+
+        ctx context: 'nested context' do: [:inner |
+            inner before: #each do: [
+                "Child before hook"
+            ].
+
+            inner it: 'inherits parent before hooks' do: [
+                (self expect: hookCounter) to beGreaterThan: 2.
+            ].
+        ].
+    ].
+
+    spec context: 'should syntax' do: [:ctx |
+        ctx it: 'runs before each example' do: [
+            hookCounter should beGreaterThan: 0.
+        ].
+
+        ctx it: 'runs before each example again' do: [
+            hookCounter should beGreaterThan: 1.
+        ].
+
+        ctx context: 'nested context' do: [:inner |
+            inner before: #each do: [
+                "Child before hook"
+            ].
+
+            inner it: 'inherits parent before hooks' do: [
+                hookCounter should beGreaterThan: 2.
+            ].
         ].
     ].
 ].
