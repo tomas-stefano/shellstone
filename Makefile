@@ -53,10 +53,30 @@ list-files:
 	@echo "Source files from package.xml:"
 	@for f in $(SRC_FILES); do echo "  $$f"; done
 
-# Run Pharo specs (requires smalltalkCI: https://github.com/hpi-swa/smalltalkCI)
+# Run Pharo specs
 pharo-spec:
 	@echo "Running Pharo specs..."
-	@smalltalkci -s Pharo64-$(PHARO_VERSION) .smalltalk.ston
+	@if [ ! -f Pharo.image ]; then \
+		echo "Downloading Pharo $(PHARO_VERSION)..."; \
+		curl -sL https://get.pharo.org/$(PHARO_VERSION) | bash > /dev/null 2>&1; \
+	fi
+	@./pharo Pharo.image eval --save "Metacello new baseline: 'ShellStone'; repository: 'tonel://$(shell pwd)/pharo-src'; load." 2>/dev/null || true
+	@./pharo Pharo.image eval " \
+		| passed failed pending | \
+		passed := 0. failed := 0. pending := 0. \
+		SSSpecRunner allSubclasses do: [ :specClass | \
+			specClass buildSuiteFromMethods tests do: [ :test | \
+				test currentExample ifNotNil: [ :ex | \
+					ex isPending \
+						ifTrue: [ pending := pending + 1 ] \
+						ifFalse: [ \
+							[ test runCase. passed := passed + 1 ] \
+								on: Error, TestFailure \
+								do: [ :e | failed := failed + 1. \
+									Transcript show: 'F'. \
+									Transcript show: ex fullDescription; show: ' FAILED: '; show: e messageText; cr ] ] ] ] ]. \
+		Transcript cr; show: passed; show: ' passed, '; show: failed; show: ' failed, '; show: pending; show: ' pending'; cr. \
+		failed > 0 ifTrue: [ Smalltalk exit: 1 ]"
 
 # Alias for pharo-spec
 pharo-test: pharo-spec
