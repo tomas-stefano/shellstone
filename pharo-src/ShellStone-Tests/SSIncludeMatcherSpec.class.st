@@ -9,7 +9,7 @@ Class {
 SSIncludeMatcherSpec class >> loadSpecs [
 	SSWorld reset.
 
-	SSDescribe the: 'include matcher' do: [ :spec |
+	SS describe: 'include matcher' do: [ :spec |
 		spec context: 'with arrays' do: [ :ctx |
 			ctx it: 'passes when array includes item' do: [
 				(SS expect: #(1 2 3)) to include: 2

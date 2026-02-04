@@ -9,7 +9,7 @@ Class {
 SSEqualMatcherSpec class >> loadSpecs [
 	SSWorld reset.
 
-	SSDescribe the: 'equal matcher' do: [ :spec |
+	SS describe: 'equal matcher' do: [ :spec |
 		spec context: 'with identical values' do: [ :ctx |
 			ctx it: 'passes for equal integers' do: [
 				(SS expect: 1) to equal: 1

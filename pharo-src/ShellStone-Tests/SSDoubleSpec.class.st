@@ -9,7 +9,7 @@ Class {
 SSDoubleSpec class >> loadSpecs [
 	SSWorld reset.
 
-	SSDescribe the: 'Double' do: [ :spec |
+	SS describe: 'Double' do: [ :spec |
 		spec context: 'stubbing' do: [ :ctx |
 			ctx it: 'returns stubbed value' do: [
 				| double |
@@ -36,7 +36,7 @@ SSDoubleSpec class >> loadSpecs [
 		]
 	].
 
-	SSDescribe the: 'Spy' do: [ :spec |
+	SS describe: 'Spy' do: [ :spec |
 		spec context: 'wrapping objects' do: [ :ctx |
 			ctx it: 'forwards to real object' do: [
 				| list spy |

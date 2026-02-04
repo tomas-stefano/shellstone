@@ -9,7 +9,7 @@ Class {
 SSBeMatcherSpec class >> loadSpecs [
 	SSWorld reset.
 
-	SSDescribe the: 'be matcher' do: [ :spec |
+	SS describe: 'be matcher' do: [ :spec |
 		spec context: 'beTruthy' do: [ :ctx |
 			ctx it: 'passes for true' do: [
 				(SS expect: true) to beTruthy
