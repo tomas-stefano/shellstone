@@ -60,23 +60,8 @@ pharo-spec:
 		echo "Downloading Pharo $(PHARO_VERSION)..."; \
 		curl -sL https://get.pharo.org/$(PHARO_VERSION) | bash > /dev/null 2>&1; \
 	fi
-	@./pharo Pharo.image eval --save "Metacello new baseline: 'ShellStone'; repository: 'tonel://$(shell pwd)/pharo-src'; load." 2>/dev/null || true
-	@./pharo Pharo.image eval " \
-		| passed failed pending | \
-		passed := 0. failed := 0. pending := 0. \
-		SSSpecRunner allSubclasses do: [ :specClass | \
-			specClass buildSuiteFromMethods tests do: [ :test | \
-				test currentExample ifNotNil: [ :ex | \
-					ex isPending \
-						ifTrue: [ pending := pending + 1 ] \
-						ifFalse: [ \
-							[ test runCase. passed := passed + 1 ] \
-								on: Error, TestFailure \
-								do: [ :e | failed := failed + 1. \
-									Transcript show: 'F'. \
-									Transcript show: ex fullDescription; show: ' FAILED: '; show: e messageText; cr ] ] ] ] ]. \
-		Transcript cr; show: passed; show: ' passed, '; show: failed; show: ' failed, '; show: pending; show: ' pending'; cr. \
-		failed > 0 ifTrue: [ Smalltalk exit: 1 ]"
+	@./pharo Pharo.image eval --save "Metacello new baseline: 'ShellStone'; repository: 'tonel://$(shell pwd)/pharo-src'; load." > /dev/null 2>&1 || true
+	@./pharo Pharo.image eval "SSRunner run > 0 ifTrue: [Smalltalk exit: 1]"
 
 # Alias for pharo-spec
 pharo-test: pharo-spec
