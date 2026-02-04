@@ -1,5 +1,12 @@
 # TODO
 
+## Cross-Platform
+
+- [x] Pharo support
+- [x] Unified CLI (`bin/shellstone` for GNU, `shellstone` command for Pharo)
+- [x] GitHub Actions CI for both platforms
+- [ ] Squeak support
+
 ## Full BDD Support (Cucumber-like)
 
 - [ ] Gherkin parser for `.feature` files

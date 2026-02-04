@@ -5,31 +5,52 @@ A cross-platform testing framework for Smalltalk inspired by RSpec.
 ## Table of Contents
 
 - [Installation](#installation)
+- [Quick Start](#quick-start)
 - [GNU Smalltalk](#gnu-smalltalk)
-  - [Quick Start](#quick-start)
-  - [Expectation Syntax](#expectation-syntax)
-  - [Structure](#structure)
-  - [Test Doubles](#test-doubles)
-  - [Running Tests](#running-tests)
 - [Pharo](#pharo)
-  - [Installation](#pharo-installation)
-  - [Quick Start](#pharo-quick-start)
-  - [Running Tests](#pharo-running-tests)
 - [Matchers Reference](#matchers-reference)
+- [CLI](#cli)
 - [Development](#development)
 - [License](#license)
 
 ## Installation
 
+### Pharo
+
+```smalltalk
+Metacello new
+  baseline: 'ShellStone';
+  repository: 'github://tomas-stefano/shellstone:main/pharo-src';
+  load.
+```
+
+### GNU Smalltalk
+
 ```bash
 git clone https://github.com/tomas-stefano/shellstone.git
+cd shellstone
+make gnu-install
 ```
 
 ---
 
-## GNU Smalltalk
+## Quick Start
 
-### Quick Start
+### Pharo
+
+```smalltalk
+SS describe: 'Calculator' do: [ :spec |
+  spec it: 'adds two numbers' do: [
+    (SS expect: 1 + 1) to equal: 2
+  ].
+
+  spec it: 'multiplies numbers' do: [
+    (SS expect: 3 * 4) to equal: 12
+  ]
+].
+```
+
+### GNU Smalltalk
 
 ```smalltalk
 Namespace current: ShellStone [
@@ -47,27 +68,25 @@ Describe the: 'Calculator' do: [:spec |
 ]
 ```
 
+---
+
+## GNU Smalltalk
+
 ### Expectation Syntax
 
 ShellStone supports two syntaxes: **expect** (recommended) and **should** (legacy).
 
-#### Expect Syntax (Recommended)
-
 ```smalltalk
+"Expect syntax (recommended)"
 (self expect: actual) to matcher.
 (self expect: actual) toNot matcher.
-```
 
-#### Should Syntax (Legacy)
-
-```smalltalk
+"Should syntax (legacy)"
 actual should matcher.
 actual shouldNot matcher.
 ```
 
 ### Structure
-
-#### Describe and Context
 
 ```smalltalk
 Describe the: 'MyClass' do: [:spec |
@@ -79,7 +98,7 @@ Describe the: 'MyClass' do: [:spec |
 ].
 ```
 
-#### Hooks
+### Hooks
 
 ```smalltalk
 Describe the: 'Database' do: [:spec |
@@ -99,122 +118,71 @@ Describe the: 'Database' do: [:spec |
 ].
 ```
 
-#### Let (Memoized Helpers)
-
-```smalltalk
-Describe the: 'User' do: [:spec |
-  spec let: #user do: [User named: 'Alice'].
-
-  spec it: 'has a name' do: [
-    (self expect: spec user name) to equal: 'Alice'.
-  ].
-].
-```
-
-#### Pending Examples
-
-```smalltalk
-spec it: 'will be implemented later'.  "No block = pending"
-
-spec it: 'is explicitly pending' do: [
-  self pending: 'Not implemented yet'.
-].
-```
-
 ### Test Doubles
 
-#### Doubles (Mocks)
-
 ```smalltalk
-| db |
+"Doubles"
 db := ShellStone.Double named: 'database'.
 db stub: #find: andReturn: 'user'.
-
 (self expect: (db find: 1)) to equal: 'user'.
-```
 
-#### Spies
-
-```smalltalk
-| list spy |
+"Spies"
 list := OrderedCollection new.
 spy := ShellStone.Spy on: list.
-
 spy add: 1.
 spy add: 2.
-
-(self expect: (spy received: #add:)) to beTrue.
 (self expect: (spy received: #add: times: 2)) to beTrue.
 ```
 
 ### Running Tests
 
 ```bash
-make test        # Run unit specs
-make spec-doc    # Run with documentation format
-make validate    # Validate package loads
-make install     # Install to ~/.st
+bin/shellstone           # Run specs
+make gnu-spec            # Run specs via make
+make gnu-spec-doc        # Documentation format
 ```
 
 ---
 
 ## Pharo
 
-### Pharo Installation
-
-Using Metacello:
-
-```smalltalk
-Metacello new
-  baseline: 'ShellStone';
-  repository: 'github://tomas-stefano/shellstone:main/pharo-src';
-  load.
-```
-
-### Pharo Quick Start
+### DSL Entry Point
 
 All DSL entry points go through the `SS` class:
 
 ```smalltalk
 SS describe: 'Calculator' do: [ :spec |
   spec it: 'adds two numbers' do: [
-    (SS expect: 1 + 1) to equal: 2.
-  ].
-
-  spec it: 'multiplies numbers' do: [
-    (SS expect: 3 * 4) to equal: 12.
-  ].
+    (SS expect: 1 + 1) to equal: 2
+  ]
 ].
 ```
 
-#### Test Doubles in Pharo
+### Test Doubles
 
 ```smalltalk
-| db |
+"Doubles"
 db := SS double: 'database'.
 db stub: #find: andReturn: 'user'.
-
 (SS expect: (db find: 1)) to equal: 'user'.
 
-| list spy |
+"Spies"
 list := OrderedCollection new.
 spy := SS spyOn: list.
 spy add: 1.
-
 (SS expect: (spy received: #add:)) to beTrue.
 ```
 
-### Pharo Running Tests
+### Running Tests
 
 ```bash
-# Requires smalltalkCI (https://github.com/hpi-swa/smalltalkCI)
+# Via make (auto-downloads Pharo)
 make pharo-spec
-
-# Specify Pharo version
 PHARO_VERSION=110 make pharo-spec
 
-# Run all platforms
-make test-all
+# Via Pharo CLI
+./pharo Pharo.image shellstone
+./pharo Pharo.image shellstone --help
 ```
 
 ---
@@ -244,18 +212,35 @@ All matchers support negation with `toNot` (or `shouldNot` in GNU Smalltalk).
 
 ---
 
+## CLI
+
+### GNU Smalltalk
+
+```bash
+bin/shellstone                    # Run specs in current directory
+bin/shellstone spec/              # Run specs in specific directory
+```
+
+### Pharo
+
+```bash
+./pharo Pharo.image shellstone           # Run specs
+./pharo Pharo.image shellstone --help    # Show help
+./pharo Pharo.image shellstone --version # Show version
+```
+
+---
+
 ## Development
 
-### Project Structure
+### Make Commands
 
-```
-shellstone/
-├── gnu-src/        # GNU Smalltalk source
-├── pharo-src/      # Pharo source (Tonel format)
-├── spec/           # GNU Smalltalk specs
-├── package.xml     # GNU Smalltalk package definition
-├── .smalltalk.ston # Pharo CI configuration
-└── Makefile
+```bash
+make                # Run all specs (GNU + Pharo)
+make gnu-spec       # GNU Smalltalk specs
+make pharo-spec     # Pharo specs
+make clean          # Remove tmp/
+make help           # Show all commands
 ```
 
 ### Adding New Files
@@ -267,12 +252,6 @@ For GNU Smalltalk, edit `package.xml`:
 ```
 
 For Pharo, add classes to `pharo-src/` in Tonel format.
-
-### Available Commands
-
-```bash
-make help    # Show all available commands
-```
 
 ## License
 

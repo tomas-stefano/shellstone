@@ -2,37 +2,83 @@
 
 ## 0.1.0
 
-Initial release of ShellStone, a testing framework for GNU Smalltalk inspired by RSpec.
+Cross-platform release supporting both GNU Smalltalk and Pharo.
 
-### Features
+### Cross-Platform Support
 
-**Dual expectation syntax** - Both modern `expect` and legacy `should` styles:
-
-```smalltalk
-(self expect: 1 + 1) to equal: 2.
-(1 + 1) should equal: 2.
-```
-
-**Matchers** - `equal:`, `beA:`, `beNil`, `beTruthy`, `beFalsy`, `beTrue`, `beFalse`, `beGreaterThan:`, `beLessThan:`, `include:`, `match:`, `respondTo:`, `raiseError`, `change:`
-
-**Structure** - Nested `describe`/`context` blocks with `before:`/`after:` hooks:
+ShellStone now runs on both GNU Smalltalk and Pharo with a consistent API:
 
 ```smalltalk
-Describe the: 'Calculator' do: [:spec |
-  spec before: #each do: [ calc := Calculator new ].
+"Pharo"
+SS describe: 'Calculator' do: [ :spec |
   spec it: 'adds numbers' do: [
-    (self expect: (calc add: 2 to: 3)) to equal: 5.
+    (SS expect: 1 + 1) to equal: 2
+  ]
+].
+
+"GNU Smalltalk"
+Describe the: 'Calculator' do: [:spec |
+  spec it: 'adds numbers' do: [
+    (self expect: 1 + 1) to equal: 2.
   ].
 ].
 ```
 
-**Test doubles** - Doubles, spies, and message expectations:
+### Features
+
+**Matchers** - Full set of RSpec-style matchers:
+- `equal:`, `beA:`, `beKindOf:`, `beNil`
+- `beTruthy`, `beFalsy`, `beTrue`, `beFalse`
+- `beGreaterThan:`, `beLessThan:`, `beGreaterThanOrEqualTo:`, `beLessThanOrEqualTo:`
+- `include:`, `match:`, `respondTo:`
+- `raiseError`, `raiseError:`
+- `change:`
+
+**Structure** - Nested `describe`/`context` blocks with hooks:
 
 ```smalltalk
-db := Double named: 'database'.
-db stub: #find: andReturn: 'user'.
+SS describe: 'User' do: [ :spec |
+  spec before: #each do: [ user := User new ].
+  spec context: 'when new' do: [ :ctx |
+    ctx it: 'has no name' do: [
+      (SS expect: user name) to beNil
+    ]
+  ]
+].
 ```
 
-**CLI** - Formatters (`progress`, `documentation`, `json`, `html`), tags, fail-fast, random ordering
+**Test Doubles** - Mocks and spies:
 
-**Makefile** - `make spec`, `make spec-doc`, `make install`
+```smalltalk
+db := SS double: 'database'.
+db stub: #find: andReturn: 'user'.
+
+spy := SS spyOn: list.
+spy add: 1.
+(SS expect: (spy received: #add:)) to beTrue.
+```
+
+**CLI** - Command-line interface for both platforms:
+
+```bash
+# GNU Smalltalk
+bin/shellstone
+
+# Pharo
+./pharo Pharo.image shellstone
+```
+
+**CI Ready** - GitHub Actions workflow for both platforms:
+- GNU Smalltalk on Ubuntu
+- Pharo 11 and 12
+
+### Project Structure
+
+```
+shellstone/
+├── gnu-src/        # GNU Smalltalk source
+├── gnu-specs/      # GNU Smalltalk specs
+├── pharo-src/      # Pharo source (Tonel)
+├── pharo-specs/    # Pharo specs
+└── bin/            # CLI scripts
+```
