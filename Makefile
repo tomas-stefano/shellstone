@@ -1,115 +1,135 @@
 # ShellStone Makefile
-# Cross-Smalltalk testing framework
+# Cross-platform testing framework for Smalltalk
 
-GST = gst
-GST_PACKAGE = gst-package
-PACKAGE_XML = package.xml
+#------------------------------------------------------------------------------
+# Configuration
+#------------------------------------------------------------------------------
+
 PHARO_VERSION ?= 120
+GST           ?= gst
+GST_PACKAGE   ?= gst-package
+TMP_DIR       := tmp
 
-# Source directories
-SPEC_DIR = gnu-specs
-FEATURES_DIR = features
+#------------------------------------------------------------------------------
+# Default target - run specs on all platforms
+#------------------------------------------------------------------------------
 
-# Extract source files from package.xml (single source of truth)
-SRC_FILES := $(shell grep '<filein>' $(PACKAGE_XML) | sed 's/.*<filein>\(.*\)<\/filein>/\1/')
+.PHONY: all
+all: test-all
 
-# Find spec files
-SPEC_FILES := $(shell find $(SPEC_DIR) -name '*_spec.st' | sort)
-FEATURE_FILES := $(shell find $(FEATURES_DIR) -name '*_spec.st' | sort)
+#------------------------------------------------------------------------------
+# Pharo targets
+#------------------------------------------------------------------------------
 
-.PHONY: all test spec features clean help validate install uninstall pharo-spec pharo-test
+.PHONY: pharo-spec pharo-clean
 
-# Default target
-all: test
-
-# Run all specs (GNU Smalltalk)
-test: spec
-
-# Run unit specs
-spec:
-	@echo "Running specs..."
-	@echo "ShellStone.Runner new start." | $(GST) $(SRC_FILES) $(SPEC_DIR)/spec_helper.st $(SPEC_FILES) /dev/stdin
-
-# Run feature specs
-features:
-	@echo "Running feature specs..."
-	@echo "ShellStone.Runner new start." | $(GST) $(SRC_FILES) $(FEATURE_FILES) /dev/stdin
-
-# Run all tests (specs + features)
-all-tests: spec features
-
-# Run specs with documentation format
-spec-doc:
-	@echo "Running specs (documentation format)..."
-	@echo "| r | r := ShellStone.Runner new. r options format: 'documentation'. r start." | $(GST) $(SRC_FILES) $(SPEC_DIR)/spec_helper.st $(SPEC_FILES) /dev/stdin
-
-# Validate package loads correctly
-validate:
-	@echo "Validating package..."
-	@echo "'Package loaded successfully.' displayNl." | $(GST) $(SRC_FILES) /dev/stdin
-
-# List source files (useful for debugging)
-list-files:
-	@echo "Source files from package.xml:"
-	@for f in $(SRC_FILES); do echo "  $$f"; done
+# Absolute path to project root
+PROJECT_ROOT := $(shell pwd)
 
 # Run Pharo specs
 pharo-spec:
 	@echo "Running Pharo specs..."
-	@if [ ! -f Pharo.image ]; then \
+	@mkdir -p $(TMP_DIR)
+	@if [ ! -f $(TMP_DIR)/Pharo.image ]; then \
 		echo "Downloading Pharo $(PHARO_VERSION)..."; \
-		curl -sL https://get.pharo.org/$(PHARO_VERSION) | bash > /dev/null 2>&1; \
+		cd $(TMP_DIR) && curl -sL https://get.pharo.org/$(PHARO_VERSION)+vm | bash > /dev/null 2>&1; \
 	fi
-	@./pharo Pharo.image eval --save "Metacello new baseline: 'ShellStone'; repository: 'tonel://$(shell pwd)/pharo-src'; load." > /dev/null 2>&1 || true
-	@./pharo Pharo.image eval "SSRunner run > 0 ifTrue: [Smalltalk exit: 1]"
+	@cd $(TMP_DIR) && ./pharo Pharo.image eval --save \
+		"Metacello new baseline: 'ShellStone'; repository: 'tonel://$(PROJECT_ROOT)/pharo-src'; load." 2>&1 | grep -v "^MetacelloNotification" || true
+	@cd $(TMP_DIR) && ./pharo Pharo.image eval "SSRunner run > 0 ifTrue: [Smalltalk exit: 1]"
 
-# Alias for pharo-spec
-pharo-test: pharo-spec
+# Clean temporary files (Pharo downloads, etc.)
+pharo-clean:
+	@rm -rf $(TMP_DIR)
+	@echo "Cleaned tmp/"
 
-# Run tests on all platforms
-test-all: spec pharo-spec
+#------------------------------------------------------------------------------
+# GNU Smalltalk targets
+#------------------------------------------------------------------------------
 
-# Clean generated files
-clean:
-	@rm -f *.log
-	@rm -f coverage.html
-	@rm -rf Pharo* pharo* *.image *.changes package-cache
-	@echo "Cleaned."
+.PHONY: gnu-spec gnu-spec-doc gnu-features gnu-validate gnu-install gnu-uninstall
 
-# Install package to system
-install:
-	@echo "Installing ShellStone..."
-	@$(GST_PACKAGE) -t ~/.st $(PACKAGE_XML)
+# Source and spec files (extracted from package.xml)
+GNU_SRC   := $(shell grep '<filein>' package.xml | sed 's/.*<filein>\(.*\)<\/filein>/\1/')
+GNU_SPECS := $(shell find gnu-specs -name '*_spec.st' 2>/dev/null | sort)
+GNU_FEATURES := $(shell find features -name '*_spec.st' 2>/dev/null | sort)
 
-# Uninstall package from system
-uninstall:
+# Run GNU Smalltalk specs
+gnu-spec:
+	@echo "Running GNU Smalltalk specs..."
+	@echo "ShellStone.Runner new start." | $(GST) $(GNU_SRC) gnu-specs/spec_helper.st $(GNU_SPECS) /dev/stdin
+
+# Run specs with documentation format
+gnu-spec-doc:
+	@echo "Running GNU Smalltalk specs (documentation format)..."
+	@echo "| r | r := ShellStone.Runner new. r options format: 'documentation'. r start." | \
+		$(GST) $(GNU_SRC) gnu-specs/spec_helper.st $(GNU_SPECS) /dev/stdin
+
+# Run feature specs
+gnu-features:
+	@echo "Running GNU Smalltalk feature specs..."
+	@echo "ShellStone.Runner new start." | $(GST) $(GNU_SRC) $(GNU_FEATURES) /dev/stdin
+
+# Validate package loads
+gnu-validate:
+	@echo "Validating GNU Smalltalk package..."
+	@echo "'Package loaded successfully.' displayNl." | $(GST) $(GNU_SRC) /dev/stdin
+
+# Install to system
+gnu-install:
+	@echo "Installing ShellStone to ~/.st..."
+	@$(GST_PACKAGE) -t ~/.st package.xml
+
+# Uninstall from system
+gnu-uninstall:
 	@echo "Uninstalling ShellStone..."
 	@$(GST_PACKAGE) -t ~/.st --uninstall ShellStone
 
-# Show help
+#------------------------------------------------------------------------------
+# Cross-platform targets
+#------------------------------------------------------------------------------
+
+.PHONY: test test-all clean
+
+# Alias for test-all
+test: test-all
+
+# Run tests on all platforms
+test-all: gnu-spec pharo-spec
+
+# Clean all generated files
+clean:
+	@rm -rf $(TMP_DIR) *.log coverage.html package-cache
+	@echo "Cleaned."
+
+#------------------------------------------------------------------------------
+# Help
+#------------------------------------------------------------------------------
+
+.PHONY: help
+
 help:
-	@echo "ShellStone Makefile"
+	@echo "ShellStone - Cross-platform Smalltalk testing framework"
 	@echo ""
 	@echo "Usage: make [target]"
 	@echo ""
-	@echo "GNU Smalltalk:"
-	@echo "  test          Run unit specs (default)"
-	@echo "  spec          Run unit specs"
-	@echo "  spec-doc      Run specs with documentation format"
-	@echo "  features      Run feature specs"
-	@echo "  validate      Validate package loads correctly"
-	@echo "  install       Install package to ~/.st"
-	@echo "  uninstall     Uninstall package"
+	@echo "Pharo (default):"
+	@echo "  pharo-spec     Run Pharo specs (default target)"
+	@echo "  pharo-clean    Remove Pharo files"
 	@echo ""
-	@echo "Pharo:"
-	@echo "  pharo-spec    Run Pharo specs (requires smalltalkCI)"
+	@echo "GNU Smalltalk:"
+	@echo "  gnu-spec       Run specs"
+	@echo "  gnu-spec-doc   Run specs with documentation format"
+	@echo "  gnu-features   Run feature specs"
+	@echo "  gnu-validate   Validate package loads"
+	@echo "  gnu-install    Install to ~/.st"
+	@echo "  gnu-uninstall  Uninstall"
 	@echo ""
 	@echo "Cross-platform:"
-	@echo "  test-all      Run tests on all platforms"
+	@echo "  test           Run all specs (default)"
+	@echo "  test-all       Run all specs (alias)"
+	@echo "  clean          Remove all generated files"
 	@echo ""
-	@echo "Other:"
-	@echo "  list-files    Show source files from package.xml"
-	@echo "  clean         Remove generated files"
-	@echo "  help          Show this help"
-	@echo ""
-	@echo "Set PHARO_VERSION to change Pharo version (default: 120)"
+	@echo "Configuration:"
+	@echo "  PHARO_VERSION  Pharo version (default: $(PHARO_VERSION))"
+	@echo "  GST            GNU Smalltalk binary (default: gst)"

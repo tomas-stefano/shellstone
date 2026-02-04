@@ -21,30 +21,23 @@ jobs:
           sudo apt-get install -y gnu-smalltalk
 
       - name: Validate package loads
-        run: make validate
+        run: make gnu-validate
 
       - name: Run specs
-        run: make spec
-
-      - name: Run specs (documentation format)
-        run: make spec-doc
+        run: make gnu-spec
 
   pharo:
-    name: Pharo
+    name: Pharo ${{ matrix.pharo-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         pharo-version: ['110', '120']
+      fail-fast: false
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Load and test in Pharo
-        uses: hpi-swa/setup-smalltalkCI@v1
-        with:
-          smalltalk-image: Pharo64-${{ matrix.pharo-version }}
-
-      - name: Run tests
-        run: smalltalkci -s Pharo64-${{ matrix.pharo-version }} .smalltalk.ston
-        timeout-minutes: 15
+      - name: Run Pharo specs
+        run: make pharo-spec PHARO_VERSION=${{ matrix.pharo-version }}
+        timeout-minutes: 10
