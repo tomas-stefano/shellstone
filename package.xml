@@ -2,27 +2,103 @@
   <name>ShellStone</name>
   <namespace>ShellStone</namespace>
 
-  <filein>shellstone/extensions/runner.st</filein>
-  <filein>shellstone/extensions/options_parser.st</filein>
-  <filein>shellstone/core/describe.st</filein>
-  <filein>shellstone/core/example_group.st</filein>
-  <filein>shellstone/expectations/expectation_handler.st</filein>
-  <filein>shellstone/expectations/positive_expectation_handler.st</filein>
-  <filein>shellstone/expectations/negative_expectation_handler.st</filein>  
-  <filein>shellstone/expectations/should.st</filein>
-  <filein>shellstone/matchers/matcher.st</filein>  
-  <filein>shellstone/matchers/equal.st</filein>
-  <filein>shellstone/matchers/kind_of.st</filein>
-  
-  <file>shellstone/extensions/runner.st</file>
-  <file>shellstone/extensions/options_parser.st</file>
-  <file>shellstone/core/describe.st</file>
-  <file>shellstone/core/example_group.st</file>
-  <file>shellstone/expectations/expectation_handler.st</file>
-  <file>shellstone/expectations/positive_expectation_handler.st</file>
-  <file>shellstone/expectations/negative_expectation_handler.st</file>  
-  <file>shellstone/expectations/should.st</file>
-  <file>shellstone/matchers/matcher.st</file>
-  <file>shellstone/matchers/equal.st</file>
-  <file>shellstone/matchers/kind_of.st</file>
+  <!-- Support utilities -->
+  <filein>gnu-src/support/color_output.st</filein>
+  <filein>gnu-src/support/example_result.st</filein>
+
+  <!-- Expectations - base classes -->
+  <filein>gnu-src/expectations/expectation_failed.st</filein>
+  <filein>gnu-src/expectations/matchers/base_matcher.st</filein>
+
+  <!-- Matchers -->
+  <filein>gnu-src/expectations/matchers/equal.st</filein>
+  <filein>gnu-src/expectations/matchers/be.st</filein>
+  <filein>gnu-src/expectations/matchers/be_kind_of.st</filein>
+  <filein>gnu-src/expectations/matchers/respond_to.st</filein>
+  <filein>gnu-src/expectations/matchers/include.st</filein>
+  <filein>gnu-src/expectations/matchers/match.st</filein>
+  <filein>gnu-src/expectations/matchers/raise_error.st</filein>
+  <filein>gnu-src/expectations/matchers/change.st</filein>
+  <filein>gnu-src/expectations/matchers/comparison.st</filein>
+
+  <!-- Expectation handlers -->
+  <filein>gnu-src/expectations/expectation_target.st</filein>
+  <filein>gnu-src/expectations/positive_handler.st</filein>
+  <filein>gnu-src/expectations/negative_handler.st</filein>
+  <filein>gnu-src/expectations/should.st</filein>
+
+  <!-- Core DSL -->
+  <filein>gnu-src/core/metadata.st</filein>
+  <filein>gnu-src/core/pending.st</filein>
+  <filein>gnu-src/core/let_definition.st</filein>
+  <filein>gnu-src/core/hooks.st</filein>
+  <filein>gnu-src/core/example.st</filein>
+  <filein>gnu-src/core/example_group.st</filein>
+  <filein>gnu-src/core/world.st</filein>
+  <filein>gnu-src/core/describe.st</filein>
+
+  <!-- Mocks -->
+  <filein>gnu-src/mocks/method_stub.st</filein>
+  <filein>gnu-src/mocks/message_expectation.st</filein>
+  <filein>gnu-src/mocks/double.st</filein>
+  <filein>gnu-src/mocks/spy.st</filein>
+
+  <!-- Formatters -->
+  <filein>gnu-src/support/formatters/base_formatter.st</filein>
+  <filein>gnu-src/support/formatters/progress_formatter.st</filein>
+  <filein>gnu-src/support/formatters/documentation_formatter.st</filein>
+  <filein>gnu-src/support/formatters/html_formatter.st</filein>
+  <filein>gnu-src/support/formatters/json_formatter.st</filein>
+  <filein>gnu-src/support/formatters/failures_formatter.st</filein>
+
+  <!-- Support - CLI and runner -->
+  <filein>gnu-src/support/filter_manager.st</filein>
+  <filein>gnu-src/support/ordering.st</filein>
+  <filein>gnu-src/support/profiler.st</filein>
+  <filein>gnu-src/support/reporter.st</filein>
+  <filein>gnu-src/support/options_parser.st</filein>
+  <filein>gnu-src/support/runner.st</filein>
+
+  <!-- Package files for distribution -->
+  <file>gnu-src/support/color_output.st</file>
+  <file>gnu-src/support/example_result.st</file>
+  <file>gnu-src/expectations/expectation_failed.st</file>
+  <file>gnu-src/expectations/matchers/base_matcher.st</file>
+  <file>gnu-src/expectations/matchers/equal.st</file>
+  <file>gnu-src/expectations/matchers/be.st</file>
+  <file>gnu-src/expectations/matchers/be_kind_of.st</file>
+  <file>gnu-src/expectations/matchers/respond_to.st</file>
+  <file>gnu-src/expectations/matchers/include.st</file>
+  <file>gnu-src/expectations/matchers/match.st</file>
+  <file>gnu-src/expectations/matchers/raise_error.st</file>
+  <file>gnu-src/expectations/matchers/change.st</file>
+  <file>gnu-src/expectations/matchers/comparison.st</file>
+  <file>gnu-src/expectations/expectation_target.st</file>
+  <file>gnu-src/expectations/positive_handler.st</file>
+  <file>gnu-src/expectations/negative_handler.st</file>
+  <file>gnu-src/expectations/should.st</file>
+  <file>gnu-src/core/metadata.st</file>
+  <file>gnu-src/core/pending.st</file>
+  <file>gnu-src/core/let_definition.st</file>
+  <file>gnu-src/core/hooks.st</file>
+  <file>gnu-src/core/example.st</file>
+  <file>gnu-src/core/example_group.st</file>
+  <file>gnu-src/core/world.st</file>
+  <file>gnu-src/core/describe.st</file>
+  <file>gnu-src/mocks/method_stub.st</file>
+  <file>gnu-src/mocks/message_expectation.st</file>
+  <file>gnu-src/mocks/double.st</file>
+  <file>gnu-src/mocks/spy.st</file>
+  <file>gnu-src/support/formatters/base_formatter.st</file>
+  <file>gnu-src/support/formatters/progress_formatter.st</file>
+  <file>gnu-src/support/formatters/documentation_formatter.st</file>
+  <file>gnu-src/support/formatters/html_formatter.st</file>
+  <file>gnu-src/support/formatters/json_formatter.st</file>
+  <file>gnu-src/support/formatters/failures_formatter.st</file>
+  <file>gnu-src/support/filter_manager.st</file>
+  <file>gnu-src/support/ordering.st</file>
+  <file>gnu-src/support/profiler.st</file>
+  <file>gnu-src/support/reporter.st</file>
+  <file>gnu-src/support/options_parser.st</file>
+  <file>gnu-src/support/runner.st</file>
 </package>
