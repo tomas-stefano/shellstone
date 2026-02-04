@@ -370,7 +370,7 @@ make validate
 Edit `package.xml` directly - it's the single source of truth. Add your file in the correct load order (dependencies first):
 
 ```xml
-<filein>shellstone/your/new_file.st</filein>
+<filein>gnu-src/your/new_file.st</filein>
 ```
 
 The Makefile automatically extracts the file list from package.xml.
