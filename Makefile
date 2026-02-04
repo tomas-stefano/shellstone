@@ -7,7 +7,7 @@ PACKAGE_XML = package.xml
 PHARO_VERSION ?= 120
 
 # Source directories
-SPEC_DIR = spec
+SPEC_DIR = gnu-specs
 FEATURES_DIR = features
 
 # Extract source files from package.xml (single source of truth)
