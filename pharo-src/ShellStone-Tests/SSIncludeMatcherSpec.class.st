@@ -12,21 +12,21 @@ SSIncludeMatcherSpec class >> loadSpecs [
 	SSDescribe the: 'include matcher' do: [ :spec |
 		spec context: 'with arrays' do: [ :ctx |
 			ctx it: 'passes when array includes item' do: [
-				(SSExpectationTarget for: #(1 2 3)) to include: 2
+				(SS expect: #(1 2 3)) to include: 2
 			].
 
 			ctx it: 'fails when array does not include item' do: [
-				(SSExpectationTarget for: #(1 2 3)) toNot include: 5
+				(SS expect: #(1 2 3)) toNot include: 5
 			]
 		].
 
 		spec context: 'with strings' do: [ :ctx |
 			ctx it: 'passes when string includes substring' do: [
-				(SSExpectationTarget for: 'hello world') to include: 'world'
+				(SS expect: 'hello world') to include: 'world'
 			].
 
 			ctx it: 'fails when string does not include substring' do: [
-				(SSExpectationTarget for: 'hello world') toNot include: 'foo'
+				(SS expect: 'hello world') toNot include: 'foo'
 			]
 		]
 	].

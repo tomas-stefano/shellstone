@@ -12,44 +12,44 @@ SSBeMatcherSpec class >> loadSpecs [
 	SSDescribe the: 'be matcher' do: [ :spec |
 		spec context: 'beTruthy' do: [ :ctx |
 			ctx it: 'passes for true' do: [
-				(SSExpectationTarget for: true) to beTruthy
+				(SS expect: true) to beTruthy
 			].
 
 			ctx it: 'passes for non-nil values' do: [
-				(SSExpectationTarget for: 1) to beTruthy.
-				(SSExpectationTarget for: 'text') to beTruthy
+				(SS expect: 1) to beTruthy.
+				(SS expect: 'text') to beTruthy
 			].
 
 			ctx it: 'fails for false' do: [
-				(SSExpectationTarget for: false) toNot beTruthy
+				(SS expect: false) toNot beTruthy
 			].
 
 			ctx it: 'fails for nil' do: [
-				(SSExpectationTarget for: nil) toNot beTruthy
+				(SS expect: nil) toNot beTruthy
 			]
 		].
 
 		spec context: 'beFalsy' do: [ :ctx |
 			ctx it: 'passes for false' do: [
-				(SSExpectationTarget for: false) to beFalsy
+				(SS expect: false) to beFalsy
 			].
 
 			ctx it: 'passes for nil' do: [
-				(SSExpectationTarget for: nil) to beFalsy
+				(SS expect: nil) to beFalsy
 			].
 
 			ctx it: 'fails for true' do: [
-				(SSExpectationTarget for: true) toNot beFalsy
+				(SS expect: true) toNot beFalsy
 			]
 		].
 
 		spec context: 'beNil' do: [ :ctx |
 			ctx it: 'passes for nil' do: [
-				(SSExpectationTarget for: nil) to beNil
+				(SS expect: nil) to beNil
 			].
 
 			ctx it: 'fails for non-nil' do: [
-				(SSExpectationTarget for: 1) toNot beNil
+				(SS expect: 1) toNot beNil
 			]
 		]
 	].

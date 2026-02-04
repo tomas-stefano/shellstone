@@ -13,25 +13,25 @@ SSDoubleSpec class >> loadSpecs [
 		spec context: 'stubbing' do: [ :ctx |
 			ctx it: 'returns stubbed value' do: [
 				| double |
-				double := SSDouble named: 'api'.
+				double := SS double: 'api'.
 				double stub: #fetch andReturn: 'data'.
-				(SSExpectationTarget for: double fetch) to equal: 'data'
+				(SS expect: double fetch) to equal: 'data'
 			].
 
 			ctx it: 'records received messages' do: [
 				| double |
-				double := SSDouble named: 'service'.
+				double := SS double: 'service'.
 				double process.
-				(SSExpectationTarget for: (double received: #process)) to beTrue
+				(SS expect: (double received: #process)) to beTrue
 			].
 
 			ctx it: 'counts received messages' do: [
 				| double |
-				double := SSDouble named: 'counter'.
+				double := SS double: 'counter'.
 				double increment.
 				double increment.
 				double increment.
-				(SSExpectationTarget for: (double received: #increment times: 3)) to beTrue
+				(SS expect: (double received: #increment times: 3)) to beTrue
 			]
 		]
 	].
@@ -41,18 +41,18 @@ SSDoubleSpec class >> loadSpecs [
 			ctx it: 'forwards to real object' do: [
 				| list spy |
 				list := OrderedCollection new.
-				spy := SSSpy on: list.
+				spy := SS spyOn: list.
 				spy add: 1.
 				spy add: 2.
-				(SSExpectationTarget for: list size) to equal: 2
+				(SS expect: list size) to equal: 2
 			].
 
 			ctx it: 'records calls' do: [
 				| list spy |
 				list := OrderedCollection new.
-				spy := SSSpy on: list.
+				spy := SS spyOn: list.
 				spy add: 'item'.
-				(SSExpectationTarget for: (spy received: #add:)) to beTrue
+				(SS expect: (spy received: #add:)) to beTrue
 			]
 		]
 	].
