@@ -1,9 +1,10 @@
 # ShellStone Makefile
-# GNU Smalltalk testing framework
+# Cross-Smalltalk testing framework
 
 GST = gst
 GST_PACKAGE = gst-package
 PACKAGE_XML = package.xml
+PHARO_VERSION ?= 120
 
 # Source directories
 SPEC_DIR = spec
@@ -16,12 +17,12 @@ SRC_FILES := $(shell grep '<filein>' $(PACKAGE_XML) | sed 's/.*<filein>\(.*\)<\/
 SPEC_FILES := $(shell find $(SPEC_DIR) -name '*_spec.st' | sort)
 FEATURE_FILES := $(shell find $(FEATURES_DIR) -name '*_spec.st' | sort)
 
-.PHONY: all test spec features clean help validate install uninstall
+.PHONY: all test spec features clean help validate install uninstall pharo-spec pharo-test
 
 # Default target
 all: test
 
-# Run all specs
+# Run all specs (GNU Smalltalk)
 test: spec
 
 # Run unit specs
@@ -52,10 +53,22 @@ list-files:
 	@echo "Source files from package.xml:"
 	@for f in $(SRC_FILES); do echo "  $$f"; done
 
+# Run Pharo specs (requires smalltalkCI: https://github.com/hpi-swa/smalltalkCI)
+pharo-spec:
+	@echo "Running Pharo specs..."
+	@smalltalkci -s Pharo64-$(PHARO_VERSION) .smalltalk.ston
+
+# Alias for pharo-spec
+pharo-test: pharo-spec
+
+# Run tests on all platforms
+test-all: spec pharo-spec
+
 # Clean generated files
 clean:
 	@rm -f *.log
 	@rm -f coverage.html
+	@rm -rf Pharo* pharo* *.image *.changes package-cache
 	@echo "Cleaned."
 
 # Install package to system
@@ -74,15 +87,24 @@ help:
 	@echo ""
 	@echo "Usage: make [target]"
 	@echo ""
-	@echo "Targets:"
+	@echo "GNU Smalltalk:"
 	@echo "  test          Run unit specs (default)"
 	@echo "  spec          Run unit specs"
 	@echo "  spec-doc      Run specs with documentation format"
 	@echo "  features      Run feature specs"
-	@echo "  all-tests     Run all tests (specs + features)"
 	@echo "  validate      Validate package loads correctly"
-	@echo "  list-files    Show source files from package.xml"
 	@echo "  install       Install package to ~/.st"
 	@echo "  uninstall     Uninstall package"
+	@echo ""
+	@echo "Pharo:"
+	@echo "  pharo-spec    Run Pharo specs (requires smalltalkCI)"
+	@echo ""
+	@echo "Cross-platform:"
+	@echo "  test-all      Run tests on all platforms"
+	@echo ""
+	@echo "Other:"
+	@echo "  list-files    Show source files from package.xml"
 	@echo "  clean         Remove generated files"
 	@echo "  help          Show this help"
+	@echo ""
+	@echo "Set PHARO_VERSION to change Pharo version (default: 120)"
