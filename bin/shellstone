@@ -1,4 +1,5 @@
 #!/usr/bin/env gst -f
+"ShellStone CLI for GNU Smalltalk"
 
 PackageLoader fileInPackage: #ShellStone.
 
