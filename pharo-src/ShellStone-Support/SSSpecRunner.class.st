@@ -61,8 +61,8 @@ SSSpecRunner >> currentExample: anExample [
 
 { #category : #running }
 SSSpecRunner >> runCase [
-	"Run the current example"
-	| result |
+	"Run the current example with hooks from its group"
+	| result effectiveHooks effectiveLets |
 	currentExample ifNil: [ ^ self ].
 
 	currentExample isPending ifTrue: [
@@ -70,7 +70,15 @@ SSSpecRunner >> runCase [
 		^ self
 	].
 
-	result := currentExample run.
+	"Get effective hooks and lets from example's group hierarchy"
+	effectiveHooks := currentExample group
+		ifNil: [ SSHookCollection new ]
+		ifNotNil: [ :g | g effectiveHooks ].
+	effectiveLets := currentExample group
+		ifNil: [ SSLetContainer new ]
+		ifNotNil: [ :g | g effectiveLets ].
+
+	result := currentExample runWithHooks: effectiveHooks lets: effectiveLets.
 	result failed ifTrue: [
 		self fail: result failureMessage
 	]

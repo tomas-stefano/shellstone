@@ -32,6 +32,15 @@ SSDoubleSpec class >> loadSpecs [
 				double increment.
 				double increment.
 				(SS expect: (double received: #increment times: 3)) to beTrue
+			].
+
+			ctx it: 'can stub multiple methods' do: [
+				| api |
+				api := SS double: 'api'.
+				api stub: #get andReturn: 'data'.
+				api stub: #post andReturn: 'created'.
+				(SS expect: api get) to equal: 'data'.
+				(SS expect: api post) to equal: 'created'
 			]
 		]
 	].
