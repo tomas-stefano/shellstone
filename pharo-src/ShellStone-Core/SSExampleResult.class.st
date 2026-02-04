@@ -9,7 +9,7 @@ Class {
 		'startTime',
 		'endTime'
 	],
-	#category : #'ShellStone-Support'
+	#category : #'ShellStone-Core'
 }
 
 { #category : #'instance creation' }

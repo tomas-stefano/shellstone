@@ -7,7 +7,7 @@ Class {
 		'actual',
 		'matcher'
 	],
-	#category : #'ShellStone-Expectations'
+	#category : #'ShellStone-Core'
 }
 
 { #category : #'instance creation' }

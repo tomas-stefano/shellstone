@@ -132,3 +132,13 @@ SSNegativeHandler >> beTrue [
 SSNegativeHandler >> beFalse [
 	^ self handleMatcher: (SSEqualMatcher expected: false)
 ]
+
+{ #category : #matchers }
+SSNegativeHandler >> change: aBlock [
+	^ SSChangeMatcher new
+		actual: actual;
+		receiver: aBlock;
+		handler: self;
+		negate;
+		yourself
+]

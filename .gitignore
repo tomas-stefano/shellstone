@@ -1,1 +1,11 @@
 .DS_Store
+
+# Pharo files
+Pharo.image
+Pharo.changes
+*.sources
+pharo-vm/
+pharo-local/
+pharo
+pharo-ui
+image.*/

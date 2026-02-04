@@ -2,7 +2,7 @@
 Class {
 	#name : #SS,
 	#superclass : #Object,
-	#category : #'ShellStone-Core'
+	#category : #'ShellStone-Support'
 }
 
 { #category : #describing }

@@ -169,12 +169,10 @@ SSExample >> run [
 	^ [
 		block value.
 		SSExampleResult passed: self
-	] on: SSExpectationFailed do: [ :ex |
-		SSExampleResult failed: self exception: ex
-	] on: SSPendingExample do: [ :ex |
-		SSExampleResult pending: self
-	] on: Error do: [ :ex |
-		SSExampleResult failed: self exception: ex
+	] on: SSExpectationFailed, SSPendingExample, Error do: [ :ex |
+		(ex isKindOf: SSPendingExample)
+			ifTrue: [ SSExampleResult pending: self ]
+			ifFalse: [ SSExampleResult failed: self exception: ex ]
 	]
 ]
 
@@ -191,12 +189,10 @@ SSExample >> runWithHooks: aHookCollection lets: aLetContainer [
 		result := [
 			block value.
 			SSExampleResult passed: self
-		] on: SSExpectationFailed do: [ :ex |
-			SSExampleResult failed: self exception: ex
-		] on: SSPendingExample do: [ :ex |
-			SSExampleResult pending: self
-		] on: Error do: [ :ex |
-			SSExampleResult failed: self exception: ex
+		] on: SSExpectationFailed, SSPendingExample, Error do: [ :ex |
+			(ex isKindOf: SSPendingExample)
+				ifTrue: [ SSExampleResult pending: self ]
+				ifFalse: [ SSExampleResult failed: self exception: ex ]
 		]
 	] ensure: [
 		aLetContainer reset.
